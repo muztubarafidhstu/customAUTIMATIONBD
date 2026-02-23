@@ -1,0 +1,1644 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Custom Automation BD — Premium Industrial Automation</title>
+  <meta name="description" content="Custom Automation BD delivers Siemens-level industrial automation authority: PLC & SCADA, robotics integration, embedded systems, custom garments industry automation, and fast retrofit solutions." />
+
+  <!-- Premium sans-serif (engineering-grade). You can swap to your brand font later. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      /* Dark industrial palette */
+      --bg-0:#060A12;      /* deep navy/black */
+      --bg-1:#0A1222;      /* navy */
+      --bg-2:#0F1A2E;      /* panel navy */
+      --steel:#9AA7B7;     /* steel text */
+      --silver:#D5DEE8;    /* bright text */
+      --muted:#7E8CA0;     /* muted text */
+      --line:rgba(213,222,232,.14);
+      --card:rgba(16,26,46,.72);
+      --glass:rgba(10,18,34,.66);
+      --shadow: 0 22px 55px rgba(0,0,0,.45);
+
+      --accent:#2EA7FF;    /* subtle electric blue */
+      --accent-2:#62D4FF;  /* cyan edge */
+      --ok:#47E6A2;
+
+      --radius: 18px;
+      --radius-lg: 26px;
+
+      --container: 1160px;
+      --gutter: clamp(18px, 3vw, 30px);
+
+      --h1: clamp(34px, 4.6vw, 58px);
+      --h2: clamp(24px, 3vw, 34px);
+      --h3: 18px;
+      --p:  15.5px;
+      --small: 13.5px;
+
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 700px at 20% 0%, rgba(46,167,255,.18), transparent 55%),
+                  radial-gradient(1000px 600px at 80% 10%, rgba(98,212,255,.12), transparent 55%),
+                  linear-gradient(180deg, var(--bg-0), var(--bg-1) 40%, #05070D);
+      color: var(--silver);
+      line-height: 1.55;
+      letter-spacing: .1px;
+      overflow-x:hidden;
+    }
+
+    a{color:inherit; text-decoration:none}
+    img{max-width:100%; display:block}
+    button{font-family:inherit}
+
+    /* Global utilities */
+    .container{
+      width: min(var(--container), calc(100% - 2*var(--gutter)));
+      margin-inline:auto;
+    }
+    .grid{
+      display:grid;
+      gap: 22px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--silver);
+      font-weight:700;
+      letter-spacing:.2px;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease;
+      cursor:pointer;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(46,167,255,.45);
+      background: rgba(46,167,255,.06);
+      box-shadow: 0 14px 30px rgba(0,0,0,.28);
+    }
+    .btn:active{transform: translateY(0px)}
+    .btn.primary{
+      border-color: rgba(46,167,255,.45);
+      background: linear-gradient(180deg, rgba(46,167,255,.20), rgba(46,167,255,.08));
+      box-shadow: 0 18px 40px rgba(46,167,255,.12);
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(46,167,255,.30);
+      background: rgba(46,167,255,.06);
+      color: var(--silver);
+      font-weight:700;
+      font-size: var(--small);
+      letter-spacing:.2px;
+    }
+    .dot{
+      width:8px;height:8px;border-radius:50%;
+      background: var(--accent);
+      box-shadow: 0 0 18px rgba(46,167,255,.55);
+    }
+
+    /* Subtle circuit overlay */
+    .circuit{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:.28;
+      background:
+        radial-gradient(600px 300px at 60% 40%, rgba(46,167,255,.20), transparent 55%),
+        linear-gradient(90deg, rgba(213,222,232,.08) 1px, transparent 1px) 0 0/ 34px 34px,
+        linear-gradient(0deg, rgba(213,222,232,.08) 1px, transparent 1px) 0 0/ 34px 34px;
+      mask: radial-gradient(700px 380px at 50% 30%, rgba(0,0,0,1), transparent 70%);
+    }
+
+    /* NAV */
+    .nav{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter: blur(14px);
+      background: rgba(6,10,18,.68);
+      border-bottom: 1px solid rgba(213,222,232,.10);
+    }
+    .nav-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 14px 0;
+      gap:16px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width: 240px;
+    }
+    .logo{
+      width:40px;height:40px;border-radius:12px;
+      border:1px solid rgba(46,167,255,.35);
+      background:
+        radial-gradient(16px 16px at 30% 30%, rgba(98,212,255,.75), rgba(46,167,255,.08)),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.12));
+      box-shadow: 0 16px 38px rgba(0,0,0,.35);
+      position:relative;
+      overflow:hidden;
+    }
+    .logo:before{
+      content:"";
+      position:absolute; inset:-40%;
+      background: conic-gradient(from 90deg, transparent, rgba(46,167,255,.55), transparent);
+      animation: spin 6s linear infinite;
+      opacity:.55;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .brand b{
+      display:block;
+      font-size: 14px;
+      letter-spacing:.6px;
+      text-transform:uppercase;
+    }
+    .brand span{
+      display:block;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing:.25px;
+      margin-top:2px;
+    }
+
+    .nav-links{
+      display:flex;
+      gap: 18px;
+      align-items:center;
+    }
+    .nav-links a{
+      font-size: 13.5px;
+      color: rgba(213,222,232,.82);
+      padding: 8px 10px;
+      border-radius: 12px;
+      transition: background .2s ease, color .2s ease;
+    }
+    .nav-links a:hover{
+      background: rgba(255,255,255,.04);
+      color: var(--silver);
+    }
+    .nav-cta{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+
+    /* Mobile nav */
+    .menu-btn{display:none}
+    @media (max-width: 900px){
+      .nav-links{display:none}
+      .menu-btn{display:inline-flex}
+    }
+    .mobile-drawer{
+      display:none;
+      border-top: 1px solid rgba(213,222,232,.10);
+      padding: 12px 0 16px;
+    }
+    .mobile-drawer a{
+      display:block;
+      padding: 10px 12px;
+      border-radius: 12px;
+      color: rgba(213,222,232,.86);
+    }
+    .mobile-drawer a:hover{background: rgba(255,255,255,.04)}
+    .mobile-drawer.show{display:block}
+
+    /* HERO */
+    .hero{
+      position:relative;
+      padding: 64px 0 34px;
+      overflow:hidden;
+    }
+    .hero:before{
+      /* "industrial background": use your own image by replacing the URL */
+      content:"";
+      position:absolute;
+      inset:-20% -20% -20% -20%;
+      background:
+        linear-gradient(180deg, rgba(6,10,18,.28), rgba(6,10,18,.82) 55%, rgba(6,10,18,1)),
+        radial-gradient(900px 520px at 70% 20%, rgba(46,167,255,.14), transparent 62%),
+        url("https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=2400&q=80");
+      background-size: cover;
+      background-position: center;
+      filter: blur(2px) saturate(.95) contrast(1.05);
+      transform: scale(1.05);
+      opacity:.75;
+    }
+    .hero:after{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(700px 280px at 30% 30%, rgba(98,212,255,.12), transparent 60%),
+        radial-gradient(550px 250px at 70% 10%, rgba(46,167,255,.12), transparent 60%);
+      pointer-events:none;
+    }
+    .hero .circuit{opacity:.22}
+    .hero-inner{
+      position:relative;
+      display:grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 26px;
+      align-items:start;
+      padding-top: 10px;
+    }
+    @media (max-width: 980px){
+      .hero-inner{grid-template-columns: 1fr; gap:18px}
+    }
+    .hero h1{
+      font-size: var(--h1);
+      line-height: 1.05;
+      margin: 14px 0 12px;
+      letter-spacing: .2px;
+    }
+    .hero p{
+      margin:0;
+      color: rgba(213,222,232,.82);
+      font-size: clamp(15px, 1.4vw, 17px);
+      max-width: 58ch;
+    }
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+      margin-top: 22px;
+      align-items:center;
+    }
+    .hero-meta{
+      margin-top: 18px;
+      display:flex;
+      gap: 14px;
+      flex-wrap:wrap;
+      color: rgba(213,222,232,.72);
+      font-size: 12.5px;
+    }
+    .hero-meta .meta{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 12px;
+      border: 1px solid rgba(213,222,232,.10);
+      background: rgba(10,18,34,.50);
+      border-radius: 14px;
+    }
+    .meta i{
+      width: 10px; height: 10px;
+      border-radius: 3px;
+      background: rgba(46,167,255,.55);
+      box-shadow: 0 0 18px rgba(46,167,255,.35);
+    }
+
+    /* Hero side card */
+    .hero-panel{
+      position:relative;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(213,222,232,.12);
+      background: linear-gradient(180deg, rgba(16,26,46,.78), rgba(10,18,34,.58));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .hero-panel:before{
+      content:"";
+      position:absolute; inset: -2px;
+      background: radial-gradient(500px 280px at 30% 20%, rgba(46,167,255,.24), transparent 60%);
+      opacity:.75;
+      pointer-events:none;
+    }
+    .panel-inner{
+      position:relative;
+      padding: 20px 20px 18px;
+    }
+    .panel-title{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(213,222,232,.10);
+    }
+    .panel-title b{
+      letter-spacing:.6px;
+      text-transform:uppercase;
+      font-size: 12px;
+      color: rgba(213,222,232,.85);
+    }
+    .badge{
+      font-family: var(--mono);
+      font-size: 11.5px;
+      color: rgba(213,222,232,.78);
+      border: 1px solid rgba(213,222,232,.14);
+      background: rgba(255,255,255,.03);
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+    .panel-grid{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 980px){
+      .panel-grid{grid-template-columns: 1fr}
+    }
+    .stat{
+      padding: 14px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(213,222,232,.10);
+      background: rgba(6,10,18,.35);
+    }
+    .stat span{
+      display:block;
+      font-size: 12px;
+      color: rgba(213,222,232,.70);
+      letter-spacing:.2px;
+    }
+    .stat b{
+      display:block;
+      margin-top: 6px;
+      font-size: 15px;
+      letter-spacing:.15px;
+    }
+    .stat small{
+      display:block;
+      margin-top: 6px;
+      color: rgba(46,167,255,.78);
+      font-family: var(--mono);
+      font-size: 11.5px;
+    }
+
+    /* Section base */
+    section{
+      position:relative;
+      padding: 56px 0;
+    }
+    section .section-head{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+    .kicker{
+      font-family: var(--mono);
+      color: rgba(46,167,255,.85);
+      letter-spacing: .6px;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+    .section-head h2{
+      margin: 8px 0 0;
+      font-size: var(--h2);
+      letter-spacing: .2px;
+      line-height: 1.15;
+    }
+    .section-head p{
+      margin:0;
+      color: rgba(213,222,232,.78);
+      font-size: var(--p);
+      max-width: 62ch;
+    }
+
+    /* Cards */
+    .card{
+      border-radius: var(--radius);
+      border: 1px solid rgba(213,222,232,.12);
+      background: linear-gradient(180deg, rgba(16,26,46,.72), rgba(10,18,34,.52));
+      box-shadow: 0 18px 44px rgba(0,0,0,.35);
+      overflow:hidden;
+      position:relative;
+    }
+    .card:before{
+      content:"";
+      position:absolute; inset:-1px;
+      background: radial-gradient(420px 220px at 30% 0%, rgba(46,167,255,.18), transparent 60%);
+      opacity:.6;
+      pointer-events:none;
+    }
+    .card > *{position:relative}
+
+    /* About */
+    .about{
+      background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.02));
+    }
+    .about-grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 22px;
+      align-items:stretch;
+    }
+    @media (max-width: 980px){ .about-grid{grid-template-columns:1fr} }
+    .about-body{
+      padding: 22px;
+    }
+    .about-body h3{
+      margin: 8px 0 10px;
+      font-size: 18px;
+      letter-spacing: .2px;
+    }
+    .about-body p{
+      margin:0;
+      color: rgba(213,222,232,.78);
+      font-size: var(--p);
+    }
+    .about-list{
+      margin: 18px 0 0;
+      padding:0;
+      list-style:none;
+      display:grid;
+      gap: 10px;
+    }
+    .about-list li{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(213,222,232,.10);
+      background: rgba(6,10,18,.32);
+    }
+    .check{
+      width: 18px; height:18px;
+      border-radius: 6px;
+      background: rgba(71,230,162,.12);
+      border: 1px solid rgba(71,230,162,.35);
+      box-shadow: 0 0 18px rgba(71,230,162,.12);
+      flex: 0 0 auto;
+      position:relative;
+      margin-top:2px;
+    }
+    .check:after{
+      content:"";
+      position:absolute;
+      left: 5px; top: 3px;
+      width: 6px; height: 9px;
+      border-right: 2px solid rgba(71,230,162,.85);
+      border-bottom: 2px solid rgba(71,230,162,.85);
+      transform: rotate(35deg);
+    }
+    .about-list b{
+      display:block;
+      font-size: 13.5px;
+      letter-spacing:.15px;
+    }
+    .about-list span{
+      display:block;
+      margin-top:2px;
+      color: rgba(213,222,232,.72);
+      font-size: 12.8px;
+    }
+
+    .about-panel{
+      padding: 22px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+    .about-panel .line{
+      height:1px;
+      background: rgba(213,222,232,.10);
+      margin: 6px 0;
+    }
+    .signal{
+      display:flex;
+      gap: 12px;
+      align-items:center;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(46,167,255,.22);
+      background: rgba(46,167,255,.06);
+    }
+    .signal .bars{
+      width: 40px; height: 40px;
+      border-radius: 14px;
+      border: 1px solid rgba(213,222,232,.12);
+      background: rgba(6,10,18,.32);
+      display:grid;
+      place-items:center;
+    }
+    .bars svg{opacity:.95}
+    .signal b{font-size: 13.5px}
+    .signal span{
+      display:block;
+      color: rgba(213,222,232,.74);
+      font-size: 12.8px;
+      margin-top:2px;
+    }
+
+    /* Capabilities */
+    .cap-grid{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 1100px){ .cap-grid{grid-template-columns: repeat(2, 1fr)} }
+    @media (max-width: 560px){ .cap-grid{grid-template-columns: 1fr} }
+
+    .cap{
+      padding: 16px 16px 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(213,222,232,.12);
+      background: rgba(10,18,34,.48);
+      position:relative;
+      overflow:hidden;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .cap:hover{
+      transform: translateY(-2px);
+      border-color: rgba(46,167,255,.32);
+      background: rgba(10,18,34,.58);
+    }
+    .cap .icon{
+      width: 40px; height:40px;
+      border-radius: 14px;
+      border: 1px solid rgba(213,222,232,.14);
+      background:
+        radial-gradient(16px 16px at 30% 30%, rgba(98,212,255,.55), rgba(46,167,255,.06));
+      display:grid;
+      place-items:center;
+      margin-bottom: 10px;
+    }
+    .cap b{
+      display:block;
+      font-size: 14.2px;
+      letter-spacing:.2px;
+    }
+    .cap span{
+      display:block;
+      color: rgba(213,222,232,.72);
+      font-size: 12.8px;
+      margin-top: 6px;
+    }
+
+    /* Focus (Garments) */
+    .focus-wrap{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items:stretch;
+    }
+    @media (max-width: 980px){ .focus-wrap{grid-template-columns:1fr} }
+    .focus-img{
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(213,222,232,.12);
+      min-height: 320px;
+      background:
+        linear-gradient(180deg, rgba(6,10,18,.20), rgba(6,10,18,.80)),
+        url("https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=2200&q=80");
+      background-size: cover;
+      background-position: center;
+      position:relative;
+      overflow:hidden;
+      box-shadow: var(--shadow);
+    }
+    .focus-img:after{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(600px 300px at 70% 30%, rgba(46,167,255,.18), transparent 60%);
+      pointer-events:none;
+    }
+    .focus-card{
+      padding: 22px;
+    }
+    .focus-card h3{
+      margin: 10px 0 8px;
+      font-size: 18px;
+    }
+    .focus-card p{
+      margin:0;
+      color: rgba(213,222,232,.78);
+      font-size: var(--p);
+    }
+    .focus-points{
+      margin-top: 16px;
+      display:grid;
+      gap: 10px;
+    }
+    .focus-point{
+      display:flex;
+      gap: 12px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(213,222,232,.10);
+      background: rgba(6,10,18,.30);
+    }
+    .focus-point .tag{
+      font-family: var(--mono);
+      color: rgba(46,167,255,.85);
+      font-size: 11.5px;
+      letter-spacing:.4px;
+      text-transform:uppercase;
+      flex: 0 0 auto;
+      padding-top:2px;
+    }
+    .focus-point b{display:block; font-size: 13.5px}
+    .focus-point span{display:block; color: rgba(213,222,232,.70); font-size: 12.8px; margin-top:2px}
+
+    /* Integration */
+    .integration{
+      padding: 58px 0;
+    }
+    .integration .card{
+      border-radius: var(--radius-lg);
+    }
+    .integration-inner{
+      padding: 24px;
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 18px;
+      align-items:stretch;
+    }
+    @media (max-width: 980px){ .integration-inner{grid-template-columns: 1fr} }
+    .integration h3{
+      margin: 10px 0 10px;
+      font-size: 20px;
+    }
+    .integration p{
+      margin:0;
+      color: rgba(213,222,232,.78);
+      font-size: var(--p);
+      max-width: 70ch;
+    }
+    .stack{
+      margin-top: 14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+    }
+    .chip{
+      font-family: var(--mono);
+      font-size: 11.5px;
+      color: rgba(213,222,232,.80);
+      border: 1px solid rgba(213,222,232,.12);
+      background: rgba(255,255,255,.03);
+      padding: 8px 10px;
+      border-radius: 999px;
+    }
+    .integration-panel{
+      border-radius: 20px;
+      border: 1px solid rgba(46,167,255,.22);
+      background: rgba(46,167,255,.06);
+      padding: 16px;
+      display:grid;
+      gap: 10px;
+      height:100%;
+    }
+    .integration-panel .row{
+      display:flex;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      background: rgba(6,10,18,.30);
+      border: 1px solid rgba(213,222,232,.10);
+    }
+    .integration-panel .row b{
+      font-size: 12.8px;
+      color: rgba(213,222,232,.88);
+      letter-spacing:.15px;
+    }
+    .integration-panel .row span{
+      font-family: var(--mono);
+      font-size: 11.5px;
+      color: rgba(98,212,255,.88);
+    }
+
+    /* Projects */
+    .projects-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 1100px){ .projects-grid{grid-template-columns: repeat(2, 1fr)} }
+    @media (max-width: 700px){ .projects-grid{grid-template-columns: 1fr} }
+
+    .project{
+      overflow:hidden;
+      border-radius: var(--radius);
+      border: 1px solid rgba(213,222,232,.12);
+      background: rgba(10,18,34,.50);
+      box-shadow: 0 18px 44px rgba(0,0,0,.32);
+      display:flex;
+      flex-direction:column;
+      min-height: 420px;
+    }
+    .project .photo{
+      height: 160px;
+      background:
+        linear-gradient(180deg, rgba(6,10,18,.10), rgba(6,10,18,.85)),
+        var(--img);
+      background-size: cover;
+      background-position: center;
+      position:relative;
+    }
+    .project .photo:after{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(420px 200px at 30% 20%, rgba(46,167,255,.18), transparent 60%);
+      pointer-events:none;
+    }
+    .project .body{
+      padding: 16px 16px 18px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+      height:100%;
+    }
+    .project h4{
+      margin:0;
+      font-size: 15.5px;
+      letter-spacing:.2px;
+    }
+    .kv{
+      display:grid;
+      gap: 8px;
+      margin-top: 6px;
+    }
+    .kv .item{
+      display:flex;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 10px 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(213,222,232,.10);
+      background: rgba(6,10,18,.28);
+      font-size: 12.8px;
+      color: rgba(213,222,232,.78);
+    }
+    .kv .item b{color: rgba(213,222,232,.92); font-weight:700}
+    .results{
+      margin-top:auto;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(213,222,232,.10);
+    }
+    .result{
+      display:inline-flex;
+      gap: 8px;
+      align-items:center;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(71,230,162,.30);
+      background: rgba(71,230,162,.08);
+      font-family: var(--mono);
+      font-size: 11.5px;
+      color: rgba(213,222,232,.86);
+    }
+    .result i{
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(71,230,162,.85);
+      box-shadow: 0 0 14px rgba(71,230,162,.30);
+    }
+
+    /* Why Choose */
+    .why-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 980px){ .why-grid{grid-template-columns: 1fr} }
+    .why{
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(213,222,232,.12);
+      background: rgba(10,18,34,.48);
+      display:flex;
+      gap: 12px;
+    }
+    .why .mark{
+      width: 40px;height:40px;border-radius: 14px;
+      border: 1px solid rgba(71,230,162,.30);
+      background: rgba(71,230,162,.08);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+    .why b{display:block; font-size: 14px}
+    .why span{display:block; color: rgba(213,222,232,.72); font-size: 12.8px; margin-top: 4px}
+
+    /* Vision & Mission */
+    .vm-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 980px){ .vm-grid{grid-template-columns: 1fr} }
+    .vm{
+      padding: 20px;
+    }
+    .vm h3{
+      margin: 10px 0 8px;
+      font-size: 18px;
+    }
+    .vm p{
+      margin:0;
+      color: rgba(213,222,232,.78);
+      font-size: var(--p);
+    }
+
+    /* Contact */
+    .contact-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items:stretch;
+    }
+    @media (max-width: 980px){ .contact-grid{grid-template-columns: 1fr} }
+    .contact-card{
+      padding: 22px;
+    }
+    .field{
+      display:grid;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    label{
+      font-size: 12px;
+      color: rgba(213,222,232,.72);
+      letter-spacing:.2px;
+    }
+    input, textarea{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(213,222,232,.12);
+      background: rgba(6,10,18,.35);
+      color: var(--silver);
+      outline:none;
+      transition: border-color .2s ease, background .2s ease;
+    }
+    input:focus, textarea:focus{
+      border-color: rgba(46,167,255,.38);
+      background: rgba(6,10,18,.45);
+    }
+    textarea{min-height: 120px; resize: vertical}
+    .contact-info{
+      display:grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .info-row{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(213,222,232,.10);
+      background: rgba(6,10,18,.30);
+      color: rgba(213,222,232,.78);
+      font-size: 13px;
+    }
+    .info-row b{color: rgba(213,222,232,.92)}
+    .footer{
+      padding: 26px 0 40px;
+      border-top: 1px solid rgba(213,222,232,.10);
+      color: rgba(213,222,232,.70);
+      font-size: 12.8px;
+    }
+    .footer-inner{
+      display:flex;
+      justify-content:space-between;
+      gap: 14px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .footer small{
+      font-family: var(--mono);
+      color: rgba(46,167,255,.75);
+    }
+
+    /* Fine detail: subtle top/bottom separators */
+    .divider{
+      height:1px;
+      background: linear-gradient(90deg, transparent, rgba(213,222,232,.12), transparent);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="container">
+      <div class="nav-inner">
+        <a class="brand" href="#top" aria-label="Custom Automation BD home">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <b>Custom Automation BD</b>
+            <span>Industrial Automation • Robotics • PLC/SCADA</span>
+          </div>
+        </a>
+
+        <nav class="nav-links" aria-label="Primary navigation">
+          <a href="#about">About</a>
+          <a href="#capabilities">Capabilities</a>
+          <a href="#focus">Garments Automation</a>
+          <a href="#integration">Integration</a>
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="nav-cta">
+          <button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileDrawer">Menu</button>
+          <a class="btn" href="#capabilities">View Capabilities</a>
+          <a class="btn primary" href="#contact">Request Consultation</a>
+        </div>
+      </div>
+
+      <div class="mobile-drawer" id="mobileDrawer">
+        <a href="#about">About</a>
+        <a href="#capabilities">Capabilities</a>
+        <a href="#focus">Garments Automation</a>
+        <a href="#integration">Integration</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <main id="top">
+    <section class="hero">
+      <div class="circuit"></div>
+      <div class="container">
+        <div class="hero-inner">
+          <div>
+            <div class="pill"><span class="dot"></span> Siemens-level industrial authority • Engineering-first delivery</div>
+
+            <h1>Engineering Intelligent Industrial Automation</h1>
+            <p>
+              Custom-built hardware and software automation solutions for the modern garments industry and heavy industrial systems.
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn primary" href="#capabilities">
+                View Capabilities
+                <span aria-hidden="true">→</span>
+              </a>
+              <a class="btn" href="#contact">
+                Request Consultation
+                <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+
+            <div class="hero-meta" aria-label="Key positioning">
+              <div class="meta"><i></i> PLC & SCADA System Engineering</div>
+              <div class="meta"><i></i> Robotics + Heavy Machinery Integration</div>
+              <div class="meta"><i></i> Fast Retrofit Automation</div>
+            </div>
+          </div>
+
+          <aside class="hero-panel" aria-label="Capability snapshot">
+            <div class="panel-inner">
+              <div class="panel-title">
+                <b>Engineering Snapshot</b>
+                <span class="badge">ISO-ready processes • Industrial-grade execution</span>
+              </div>
+
+              <div class="panel-grid">
+                <div class="stat">
+                  <span>Control Systems</span>
+                  <b>PLC / Drives / Motion</b>
+                  <small>Deterministic control logic</small>
+                </div>
+                <div class="stat">
+                  <span>Supervisory Layer</span>
+                  <b>SCADA / HMI / Monitoring</b>
+                  <small>Real-time visibility</small>
+                </div>
+                <div class="stat">
+                  <span>Embedded</span>
+                  <b>MCU / Sensors / IO</b>
+                  <small>Edge intelligence</small>
+                </div>
+                <div class="stat">
+                  <span>Integration</span>
+                  <b>Hardware + Software</b>
+                  <small>One roof delivery</small>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ABOUT -->
+    <section id="about" class="about">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">About</div>
+            <h2>Precision Industrial Systems. Engineered for Reliability.</h2>
+          </div>
+          <p>
+            Custom Automation BD is a high-performance, engineering-driven automation company delivering precision industrial systems with full hardware and software integration.
+          </p>
+        </div>
+
+        <div class="about-grid">
+          <div class="card about-body">
+            <div class="kicker">Engineering Authority</div>
+            <h3>High-performance automation for modern factories</h3>
+            <p>
+              We design and deploy intelligent automation ecosystems that modernize plants, optimize machinery,
+              and elevate industrial performance. Our work focuses on precision control engineering, reliability,
+              and measurable efficiency outcomes—without compromise.
+            </p>
+
+            <ul class="about-list">
+              <li>
+                <div class="check" aria-hidden="true"></div>
+                <div>
+                  <b>Custom machinery intelligence</b>
+                  <span>Purpose-built control architecture for unique production requirements.</span>
+                </div>
+              </li>
+              <li>
+                <div class="check" aria-hidden="true"></div>
+                <div>
+                  <b>Smart factory modernization</b>
+                  <span>Monitoring, analytics, and performance visibility across your line.</span>
+                </div>
+              </li>
+              <li>
+                <div class="check" aria-hidden="true"></div>
+                <div>
+                  <b>Reliability & precision delivery</b>
+                  <span>Industrial-grade engineering standards for stable long-term operation.</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="card about-panel">
+            <div class="kicker">Technical Positioning</div>
+
+            <div class="signal">
+              <div class="bars" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 19V10" stroke="rgba(98,212,255,.9)" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M10 19V5" stroke="rgba(46,167,255,.85)" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M16 19V12" stroke="rgba(98,212,255,.75)" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M22 19V8" stroke="rgba(46,167,255,.7)" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div>
+                <b>Engineering-first execution</b>
+                <span>Control logic, integration, commissioning—built with industrial discipline.</span>
+              </div>
+            </div>
+
+            <div class="line"></div>
+
+            <div class="stat" style="background: rgba(6,10,18,.30);">
+              <span>What we deliver</span>
+              <b>Full-stack industrial automation</b>
+              <small>Hardware • Software • Integration</small>
+            </div>
+
+            <div class="stat" style="background: rgba(6,10,18,.30);">
+              <span>What you gain</span>
+              <b>Modernization with measurable ROI</b>
+              <small>Efficiency • Stability • Visibility</small>
+            </div>
+
+            <div class="stat" style="background: rgba(6,10,18,.30);">
+              <span>How we operate</span>
+              <b>Precision + reliability focus</b>
+              <small>Industrial-grade standards</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- CAPABILITIES -->
+    <section id="capabilities">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Core Capabilities</div>
+            <h2>Bold Technical Capability Stack</h2>
+          </div>
+          <p>
+            Structured, engineering-grade automation services designed for production-critical industrial environments.
+          </p>
+        </div>
+
+        <div class="cap-grid">
+          <div class="cap">
+            <div class="icon" aria-hidden="true">
+              <!-- simple industrial icon -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M4 20V10l8-6 8 6v10H4Z" stroke="rgba(213,222,232,.9)" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M9 20v-7h6v7" stroke="rgba(46,167,255,.85)" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <b>Industrial Automation</b>
+            <span>End-to-end automation architecture for high-throughput manufacturing.</span>
+          </div>
+
+          <div class="cap">
+            <div class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M7 7h10v10H7V7Z" stroke="rgba(213,222,232,.9)" stroke-width="2"/>
+                <path d="M4 12h3M17 12h3M12 4v3M12 17v3" stroke="rgba(46,167,255,.85)" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <b>PLC Programming & Control Systems</b>
+            <span>Deterministic logic, safety interlocks, motion control, commissioning.</span>
+          </div>
+
+          <div class="cap">
+            <div class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M8 12a4 4 0 1 0 8 0" stroke="rgba(213,222,232,.9)" stroke-width="2" stroke-linecap="round"/>
+                <path d="M6 12h2M16 12h2" stroke="rgba(46,167,255,.85)" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 6v2M12 16v2" stroke="rgba(98,212,255,.75)" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <b>Robotics Integration</b>
+            <span>Robotic arms, actuators, automated handling and industrial safety logic.</span>
+          </div>
+
+          <div class="cap">
+            <div class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M4 19V5h16v14H4Z" stroke="rgba(213,222,232,.9)" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M7 15h10M7 11h6" stroke="rgba(46,167,255,.85)" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <b>SCADA & Monitoring Systems</b>
+            <span>HMI/SCADA dashboards, alerts, plant visibility, performance analytics.</span>
+          </div>
+
+          <div class="cap">
+            <div class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M9 3h6v4H9V3Z" stroke="rgba(213,222,232,.9)" stroke-width="2"/>
+                <path d="M7 7v14h10V7" stroke="rgba(46,167,255,.85)" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M9 11h6M9 15h6" stroke="rgba(98,212,255,.75)" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <b>Embedded Systems Development</b>
+            <span>Custom MCU/IO control, edge intelligence, sensors and protocol integration.</span>
+          </div>
+
+          <div class="cap">
+            <div class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M6 20V8l6-4 6 4v12H6Z" stroke="rgba(213,222,232,.9)" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M9 13h6" stroke="rgba(46,167,255,.85)" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <b>Custom Machine Automation</b>
+            <span>Tailor-built automation systems engineered for specialized production tasks.</span>
+          </div>
+
+          <div class="cap">
+            <div class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M4 20h16" stroke="rgba(213,222,232,.9)" stroke-width="2" stroke-linecap="round"/>
+                <path d="M7 20V10l5-4 5 4v10" stroke="rgba(46,167,255,.85)" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <b>Industrial Retrofit Solutions</b>
+            <span>Fast modernization of legacy systems with minimal downtime.</span>
+          </div>
+
+          <div class="cap">
+            <div class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M4 12h16" stroke="rgba(213,222,232,.9)" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 4v16" stroke="rgba(46,167,255,.85)" stroke-width="2" stroke-linecap="round"/>
+                <path d="M7 7h10v10H7V7Z" stroke="rgba(98,212,255,.75)" stroke-width="2"/>
+              </svg>
+            </div>
+            <b>Smart Factory Modernization</b>
+            <span>Digital transformation through intelligent control and data visibility.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- SPECIALIZED FOCUS -->
+    <section id="focus">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Industry Focus</div>
+            <h2>Garments Industry Automation</h2>
+          </div>
+          <p>
+            Custom-built automation systems engineered for garments production lines—designed for throughput, precision, and stability.
+          </p>
+        </div>
+
+        <div class="focus-wrap">
+          <div class="focus-img" aria-label="Garments factory automation image"></div>
+
+          <div class="card focus-card">
+            <div class="pill"><span class="dot"></span> Production-critical systems • Efficiency-first control engineering</div>
+
+            <h3>Automation intelligence for garments production lines</h3>
+            <p>
+              We develop retrofit and custom automation systems for garments manufacturing—integrating smart monitoring,
+              precision control, and line optimization to improve performance without disrupting operations.
+            </p>
+
+            <div class="focus-points">
+              <div class="focus-point">
+                <div class="tag">System</div>
+                <div>
+                  <b>Custom-built automation systems</b>
+                  <span>Designed around your machines, workflow, and production constraints.</span>
+                </div>
+              </div>
+
+              <div class="focus-point">
+                <div class="tag">Retrofit</div>
+                <div>
+                  <b>Machine upgrade & modernization</b>
+                  <span>Upgrade legacy equipment with modern control, sensors, and monitoring.</span>
+                </div>
+              </div>
+
+              <div class="focus-point">
+                <div class="tag">Optimize</div>
+                <div>
+                  <b>Efficiency & quality improvement</b>
+                  <span>Control stability and visibility that drives measurable output gains.</span>
+                </div>
+              </div>
+
+              <div class="focus-point">
+                <div class="tag">Monitor</div>
+                <div>
+                  <b>Smart monitoring integration</b>
+                  <span>Real-time performance signals and alerts across the production line.</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- INTEGRATION -->
+    <section id="integration" class="integration">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Integration</div>
+            <h2>Hardware + Software. Delivered as One Ecosystem.</h2>
+          </div>
+          <p>
+            From mechanical control hardware to intelligent software architecture—seamless integration engineered for performance.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="circuit"></div>
+          <div class="integration-inner">
+            <div>
+              <div class="pill"><span class="dot"></span> Complete Automation Ecosystem Under One Roof</div>
+              <h3>Seamless integration engineered for industrial reliability</h3>
+              <p>
+                We combine hardware engineering and software intelligence into a unified automation architecture.
+                This reduces integration risk, accelerates deployment, and ensures stable long-term operation.
+              </p>
+
+              <div class="stack" aria-label="Integration stack">
+                <span class="chip">Control Panels</span>
+                <span class="chip">PLC Logic</span>
+                <span class="chip">Drives / Motion</span>
+                <span class="chip">Sensors / IO</span>
+                <span class="chip">Embedded Firmware</span>
+                <span class="chip">SCADA / HMI</span>
+                <span class="chip">Industrial Networks</span>
+                <span class="chip">Commissioning</span>
+              </div>
+            </div>
+
+            <div class="integration-panel" aria-label="Integration outputs">
+              <div class="row"><b>Mechanical + Electrical Control</b><span>ENGINEERED</span></div>
+              <div class="row"><b>Software Architecture & HMI</b><span>INTEGRATED</span></div>
+              <div class="row"><b>Real-time Monitoring</b><span>DEPLOYED</span></div>
+              <div class="row"><b>Retrofit Modernization</b><span>FAST</span></div>
+              <div class="row"><b>Industrial Reliability</b><span>VALIDATED</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Portfolio</div>
+            <h2>Featured Projects</h2>
+          </div>
+          <p>
+            Clean, structured engineering case summaries—designed for international client proposals.
+            Replace the images and metrics with your real project data.
+          </p>
+        </div>
+
+        <div class="projects-grid">
+          <article class="project" aria-label="Project 1">
+            <div class="photo" style="--img:url('https://images.unsplash.com/photo-1581091215367-59ab6f0b3f5f?auto=format&fit=crop&w=2000&q=80');"></div>
+            <div class="body">
+              <h4>Garments Production Line Automation Upgrade</h4>
+              <div class="kv">
+                <div class="item"><span>Industry Type</span><b>Textile Manufacturing</b></div>
+                <div class="item"><span>Automation Scope</span><b>Full-line retrofit + SCADA</b></div>
+                <div class="item"><span>Key Features</span><b>PLC redesign • sensors • dashboards</b></div>
+              </div>
+              <div class="results">
+                <span class="result"><i></i> +28% efficiency</span>
+                <span class="result"><i></i> −18% downtime</span>
+                <span class="result"><i></i> Real-time monitoring</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="project" aria-label="Project 2">
+            <div class="photo" style="--img:url('https://images.unsplash.com/photo-1581092334444-1e7d1c0f1c8b?auto=format&fit=crop&w=2000&q=80');"></div>
+            <div class="body">
+              <h4>Robotics Handling Integration & Safety Logic</h4>
+              <div class="kv">
+                <div class="item"><span>Industry Type</span><b>Heavy Industrial Systems</b></div>
+                <div class="item"><span>Automation Scope</span><b>Robotic integration + interlocks</b></div>
+                <div class="item"><span>Key Features</span><b>Motion control • safety • commissioning</b></div>
+              </div>
+              <div class="results">
+                <span class="result"><i></i> −35% manual handling</span>
+                <span class="result"><i></i> Higher consistency</span>
+                <span class="result"><i></i> Precision motion</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="project" aria-label="Project 3">
+            <div class="photo" style="--img:url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=2000&q=80');"></div>
+            <div class="body">
+              <h4>Legacy Machine Smart Retrofit (Embedded + PLC)</h4>
+              <div class="kv">
+                <div class="item"><span>Industry Type</span><b>Industrial Manufacturing</b></div>
+                <div class="item"><span>Automation Scope</span><b>Controller redesign + migration</b></div>
+                <div class="item"><span>Key Features</span><b>Firmware • comms upgrade • monitoring</b></div>
+              </div>
+              <div class="results">
+                <span class="result"><i></i> +40% performance</span>
+                <span class="result"><i></i> Lower maintenance</span>
+                <span class="result"><i></i> Modern visibility</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- WHY CHOOSE -->
+    <section id="why">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Why Choose Us</div>
+            <h2>Engineering Confidence. Industrial Reliability.</h2>
+          </div>
+          <p>
+            Multinational-grade discipline with custom-built engineering agility—built for production-critical environments.
+          </p>
+        </div>
+
+        <div class="why-grid">
+          <div class="why">
+            <div class="mark" aria-hidden="true">✔</div>
+            <div>
+              <b>Custom-built engineering solutions</b>
+              <span>Designed to fit your machines, constraints, and throughput targets.</span>
+            </div>
+          </div>
+          <div class="why">
+            <div class="mark" aria-hidden="true">✔</div>
+            <div>
+              <b>Fast retrofit capabilities</b>
+              <span>Modernize legacy systems with minimal downtime and maximum stability.</span>
+            </div>
+          </div>
+          <div class="why">
+            <div class="mark" aria-hidden="true">✔</div>
+            <div>
+              <b>Hardware + software authority</b>
+              <span>One roof integration reduces risk and accelerates deployment.</span>
+            </div>
+          </div>
+          <div class="why">
+            <div class="mark" aria-hidden="true">✔</div>
+            <div>
+              <b>Precision industrial reliability</b>
+              <span>Production-grade control logic and validation-driven commissioning.</span>
+            </div>
+          </div>
+          <div class="why">
+            <div class="mark" aria-hidden="true">✔</div>
+            <div>
+              <b>Scalable automation systems</b>
+              <span>Architected for growth: new stations, lines, and monitoring modules.</span>
+            </div>
+          </div>
+          <div class="why">
+            <div class="mark" aria-hidden="true">✔</div>
+            <div>
+              <b>Engineering-first approach</b>
+              <span>Technical clarity, structured delivery, measurable outcomes.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- VISION & MISSION -->
+    <section id="vision">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Direction</div>
+            <h2>Vision & Mission</h2>
+          </div>
+          <p>
+            Industrial transformation driven by intelligent control systems, engineered for scale.
+          </p>
+        </div>
+
+        <div class="vm-grid">
+          <div class="card vm">
+            <div class="pill"><span class="dot"></span> Vision</div>
+            <h3>Multinational engineering automation leadership</h3>
+            <p>
+              To become a multinational engineering automation leader delivering intelligent industrial transformation.
+            </p>
+          </div>
+          <div class="card vm">
+            <div class="pill"><span class="dot"></span> Mission</div>
+            <h3>Precision-driven custom automation systems</h3>
+            <p>
+              To design precision-driven, custom automation systems that empower manufacturing industries with smart,
+              scalable and reliable control solutions.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Contact</div>
+            <h2>Request Consultation</h2>
+          </div>
+          <p>
+            Professional, minimal, and clear. Replace placeholders with your official contact details.
+          </p>
+        </div>
+
+        <div class="contact-grid">
+          <div class="card contact-card">
+            <div class="pill"><span class="dot"></span> Send a message</div>
+
+            <!-- NOTE: This form is frontend-only. Wire it to your backend later. -->
+            <form onsubmit="event.preventDefault(); alert('Form submitted (demo). Connect to your backend to receive messages.');">
+              <div class="field">
+                <label for="name">Full Name</label>
+                <input id="name" name="name" autocomplete="name" placeholder="Your name" required>
+              </div>
+
+              <div class="field">
+                <label for="email">Email Address</label>
+                <input id="email" name="email" type="email" autocomplete="email" placeholder="your@email.com" required>
+              </div>
+
+              <div class="field">
+                <label for="company">Company / Factory</label>
+                <input id="company" name="company" autocomplete="organization" placeholder="Company name">
+              </div>
+
+              <div class="field">
+                <label for="message">Project Brief</label>
+                <textarea id="message" name="message" placeholder="Describe your automation requirement (machines, line type, expected outcomes)..." required></textarea>
+              </div>
+
+              <button class="btn primary" type="submit">Request Consultation →</button>
+            </form>
+          </div>
+
+          <div class="card contact-card">
+            <div class="pill"><span class="dot"></span> Contact information</div>
+
+            <div class="contact-info">
+              <div class="info-row"><span>Company</span><b>Custom Automation BD</b></div>
+              <div class="info-row"><span>Location</span><b>Bangladesh</b></div>
+              <div class="info-row"><span>Phone</span><b>+880-XXXXXXXXXX</b></div>
+              <div class="info-row"><span>Email</span><b>info@customautomationbd.com</b></div>
+              <div class="info-row"><span>Specialization</span><b>Industrial Automation • PLC/SCADA • Robotics</b></div>
+            </div>
+
+            <div style="margin-top:14px; color: rgba(213,222,232,.72); font-size: 12.8px;">
+              <span style="font-family: var(--mono); color: rgba(46,167,255,.78);">NOTE:</span>
+              Replace the hero/projects images with your real machinery photos for maximum authority.
+            </div>
+
+            <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn" href="#projects">View Projects</a>
+              <a class="btn" href="#capabilities">Capabilities</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-inner">
+          <div>
+            © <span id="year"></span> <b>Custom Automation BD</b> — Engineering Intelligent Industrial Automation
+          </div>
+          <small>Premium industrial theme • Dark navy / steel / electric blue</small>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    // Mobile menu
+    const menuBtn = document.getElementById('menuBtn');
+    const drawer = document.getElementById('mobileDrawer');
+    if(menuBtn){
+      menuBtn.addEventListener('click', () => {
+        const isOpen = drawer.classList.toggle('show');
+        menuBtn.setAttribute('aria-expanded', String(isOpen));
+      });
+    }
+
+    // Close drawer when clicking a link (mobile)
+    drawer?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      drawer.classList.remove('show');
+      menuBtn?.setAttribute('aria-expanded', 'false');
+    }));
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
